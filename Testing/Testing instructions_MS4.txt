@@ -1,0 +1,115 @@
+
+DIV
+{mem[InstOffset + 3], mem[InstOffset + 2], mem[InstOffset + 1], mem[InstOffset + 0]}=32'b0000000_00000_00000_000_00000_0110011 ; //add x0, x0, x0   
+{mem[InstOffset + 7], mem[InstOffset + 6], mem[InstOffset + 5], mem[InstOffset + 4]}=32'b000000000000_00000_010_00001_0000011 ; //lw x1, 0(x0) //x1 =17  
+{mem[InstOffset + 11], mem[InstOffset + 10], mem[InstOffset + 9], mem[InstOffset + 8]}=  32'b00000000010000000010000100000011 ; //lw x2, 4(x0) //x2 = 9
+{mem[InstOffset + 15], mem[InstOffset + 14], mem[InstOffset + 13], mem[InstOffset + 12]}=32'b0010001000001100000110110011; //mul x3, x1, x2 //x3=1
+
+------------------------------------------------------
+MUL 
+{mem[InstOffset + 3], mem[InstOffset + 2], mem[InstOffset + 1], mem[InstOffset + 0]}=32'b0000000_00000_00000_000_00000_0110011 ; //add x0, x0, x0   
+{mem[InstOffset + 7], mem[InstOffset + 6], mem[InstOffset + 5], mem[InstOffset + 4]}=32'b000000000000_00000_010_00001_0000011 ; //lw x1, 0(x0) //x1 =17  
+{mem[InstOffset + 11], mem[InstOffset + 10], mem[InstOffset + 9], mem[InstOffset + 8]}=  32'b00000000010000000010000100000011 ; //lw x2, 4(x0) //x2 = 9
+{mem[InstOffset + 15], mem[InstOffset + 14], mem[InstOffset + 13], mem[InstOffset + 12]}=32'b0010001000001000000110110011; //mul x3, x1, x2 //x3= 153
+
+-----------------------------------------------------
+MULH
+{mem[InstOffset + 3], mem[InstOffset + 2], mem[InstOffset + 1], mem[InstOffset + 0]}=32'b0000000_00000_00000_000_00000_0110011 ; //add x0, x0, x0   
+{mem[InstOffset + 7], mem[InstOffset + 6], mem[InstOffset + 5], mem[InstOffset + 4]}=32'b000000000000_00000_010_00001_0000011 ; //lw x1, 0(x0) //x1 =17  
+{mem[InstOffset + 11], mem[InstOffset + 10], mem[InstOffset + 9], mem[InstOffset + 8]}=  32'b00000000010000000010000100000011 ; //lw x2, 4(x0) //x2 = 9
+{mem[InstOffset + 15], mem[InstOffset + 14], mem[InstOffset + 13], mem[InstOffset + 12]}=32'b0010001000001001000110110011; //mul x3, x1, x2 //x3=0
+
+---------------------------------------------------
+
+MULH
+{mem[InstOffset + 3], mem[InstOffset + 2], mem[InstOffset + 1], mem[InstOffset + 0]}=32'b0000000_00000_00000_000_00000_0110011 ; //add x0, x0, x0
+{mem[InstOffset + 7], mem[InstOffset + 6], mem[InstOffset + 5], mem[InstOffset + 4]}=32'b000000000000_00000_010_00001_0000011 ; //lw x1, 0(x0) //x1 =17    
+{mem[InstOffset + 11], mem[InstOffset + 10], mem[InstOffset + 9], mem[InstOffset + 8]}=32'b01000000000100000000000010110011; //sub x1, x0, x1 //x1 =-17  
+{mem[InstOffset + 15], mem[InstOffset + 14], mem[InstOffset + 13], mem[InstOffset + 12]}=  32'b0100100000000000100010011; //addi x2, x0, 9 //x2 = 9
+{mem[InstOffset + 19], mem[InstOffset + 18], mem[InstOffset + 17], mem[InstOffset + 16]}=32'b0010001000001001000110110011; //mulh x3, x1, x2 //x3=-1
+---------------------------------------------------
+
+MULHU
+{mem[InstOffset + 3], mem[InstOffset + 2], mem[InstOffset + 1], mem[InstOffset + 0]}=32'b0000000_00000_00000_000_00000_0110011 ; //add x0, x0, x0
+{mem[InstOffset + 7], mem[InstOffset + 6], mem[InstOffset + 5], mem[InstOffset + 4]}=32'b000000000000_00000_010_00001_0000011 ; //lw x1, 0(x0) //x1 =17    
+{mem[InstOffset + 11], mem[InstOffset + 10], mem[InstOffset + 9], mem[InstOffset + 8]}=32'b01000000000100000000000010110011; //sub x1, x0, x1 //x1 =-17  
+{mem[InstOffset + 15], mem[InstOffset + 14], mem[InstOffset + 13], mem[InstOffset + 12]}=  32'b0100100000000000100010011; //addi x2, x0, 9 //x2 = 9
+{mem[InstOffset + 19], mem[InstOffset + 18], mem[InstOffset + 17], mem[InstOffset + 16]}=32'b0010001000001011000110110011; //mulhu x3, x1, x2 //x3=8
+--------------------------------------------------
+I. Test supprts all types of instrcutions
+add x0, x0, x0 
+lw x1, 0(x0) 
+addi x2, x0, 9
+lw x3, 8(x0)
+slli x3, x3, 2
+mul x3, x3, x3
+or x4, x1, x2 
+beq x4, x3, L1
+add x3, x1, x2 
+L1: add x5, x3, x2
+sw x5, 12(x0) 
+lw x6, 12(x0)
+and x7, x6, x1
+lh x17, 8(x0)
+xori x19, x1, 16
+div x8, x6, x19
+slt x9, x2, x1 
+SRLI x10, x3, 4
+lui x11, 700
+jal x12, L2
+addi x14, x0, 14
+L3:jalr x0, 20(x1)
+L2: blt x1, x2, L3
+ECALL
+
+Data Memory: 
+Mem[0] = 17
+Mem[4] = 3
+Mem[8] = 5
+Mem[20] = 8
+
+Instruction Memory:
+{mem[InstOffset + 3], mem[InstOffset + 2], mem[InstOffset + 1], mem[InstOffset + 0]}=32'h00000033; //add x0, x0, x0   
+{mem[InstOffset + 7], mem[InstOffset + 6], mem[InstOffset + 5], mem[InstOffset + 4]}=32'h00002083; //lw x1, 0(x0) //x1 =17  
+{mem[InstOffset + 11], mem[InstOffset + 10], mem[InstOffset + 9], mem[InstOffset + 8]}=32'h00900113 ; //lw x2, 4(x0) //x2 = 9
+{mem[InstOffset + 15], mem[InstOffset + 14], mem[InstOffset + 13], mem[InstOffset + 12]}=32'h00802183; //lw x3, 8(x0) 
+{mem[InstOffset + 19], mem[InstOffset + 18], mem[InstOffset + 17], mem[InstOffset + 16]}=32'h023181b3; //or x4, x1, x2
+{mem[InstOffset + 23], mem[InstOffset + 22], mem[InstOffset + 21], mem[InstOffset + 20]}=32'h0020e233; //beq x4, x3, 4     
+{mem[InstOffset + 27], mem[InstOffset + 26], mem[InstOffset + 25], mem[InstOffset + 24]}=32'h00320463; //add x3, x1, x2  
+{mem[InstOffset + 31], mem[InstOffset + 30], mem[InstOffset + 29], mem[InstOffset + 28]}=32'h002086b3; //add x5, x3, x2   
+{mem[InstOffset + 35], mem[InstOffset + 34], mem[InstOffset + 33], mem[InstOffset + 32]}=32'h002182b3;  //sw x5, 12(x0)  
+{mem[InstOffset + 39], mem[InstOffset + 38], mem[InstOffset + 37], mem[InstOffset + 36]}=32'h00502623;  //lw x6, 12(x0)      
+{mem[InstOffset + 43], mem[InstOffset + 42], mem[InstOffset + 41], mem[InstOffset + 40]}=32'h00c02303; //and x7, x6, x1
+{mem[InstOffset + 47], mem[InstOffset + 46], mem[InstOffset + 45], mem[InstOffset + 44]}=32'h001373b3;  
+{mem[InstOffset + 51], mem[InstOffset + 50], mem[InstOffset + 49], mem[InstOffset + 48]}=32'h00801883; //add x0, x1, x2
+{mem[InstOffset + 55], mem[InstOffset + 54], mem[InstOffset + 53], mem[InstOffset + 52]}=32'h0100c993; //add x9, x0, x1
+{mem[InstOffset + 59], mem[InstOffset + 58], mem[InstOffset + 57], mem[InstOffset + 56]}=32'h03334433; //add x0, x0, x0  
+{mem[InstOffset + 63], mem[InstOffset + 62], mem[InstOffset + 61], mem[InstOffset + 60]}=32'h001124b3; //add x0, x0, x0  
+{mem[InstOffset + 67], mem[InstOffset + 66], mem[InstOffset + 65], mem[InstOffset + 64]}=32'h00419513; //add x0, x0, x0  
+{mem[InstOffset + 71], mem[InstOffset + 70], mem[InstOffset + 69], mem[InstOffset + 68]}=32'h002bc5b7; //beq x4, x3, 16
+{mem[InstOffset + 75], mem[InstOffset + 74], mem[InstOffset + 73], mem[InstOffset + 72]}=32'h00c0066f; //add x0, x0, x0 
+{mem[InstOffset + 79], mem[InstOffset + 78], mem[InstOffset + 77], mem[InstOffset + 76]}=32'h00e00713; //add x0, x0, x0 
+{mem[InstOffset + 83], mem[InstOffset + 82], mem[InstOffset + 81], mem[InstOffset + 80]}=32'h01408067; //add x0, x0, x0  
+{mem[InstOffset + 87], mem[InstOffset + 86], mem[InstOffset + 85], mem[InstOffset + 84]}=32'hfe20cee3; //add x3, x1, x2 
+{mem[InstOffset + 91], mem[InstOffset + 90], mem[InstOffset + 89], mem[InstOffset + 88]}=32'h00000073; //add x0, x0, x0 
+{mem[InstOffset + 95], mem[InstOffset + 94], mem[InstOffset + 93], mem[InstOffset + 92]}=32'h0012ca17; //add x0, x0, x0 
+{mem[InstOffset + 99], mem[InstOffset + 98], mem[InstOffset + 97], mem[InstOffset + 96]}=32'h00100023; //add x0, x0, x0 
+------------------------------------------------------------------------
+
+II. Test Supports compression insteuctions
+
+Instruction Memory:
+
+{mem[3],mem[2],mem[1],mem[0]}=32'b0000000_00000_00000_000_00000_0110011;
+{mem[5],mem[4]}= 16'b010_0_01000_00100_01; // li x8, 4 --> x8 = 4
+{mem[7],mem[6]}= 16'b010_000_000_00_001_00; // lw x9, 0(x8) --> x9 = 112
+{mem[9],mem[8]}= 16'b000_0_01001_01010_01; // ADDI x9, 10 --> x9 = 122
+{mem[11],mem[10]}=16'b110_000_000_10_001_00; // SW x9, 4(x8) --> mem[8] = 122
+{mem[13],mem[12]}=16'b101_00000000100_01; // j 4
+{mem[15],mem[14]}=16'b000_0_01001_01010_01; // ADDI x9, 10 --> skipped
+{mem[17],mem[16]}=16'b100_0_00010_01001_10; // mv x2, x9 --> x2 = 122
+{mem[21],mem[20],mem[19],mem[18]}=32'h03717193; // (not comp) andi x3, x2, 55 --> x3
+= 50
+{mem[23],mem[22]}=16'b100_1_01000_00010_10; // add x8, x8, x2 --> x8 = 126
+{mem[7+200],mem[6+200],mem[5+200],mem[4+200]}=32'd112;
+
